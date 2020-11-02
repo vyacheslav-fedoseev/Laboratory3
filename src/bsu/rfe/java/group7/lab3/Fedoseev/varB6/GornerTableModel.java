@@ -35,18 +35,21 @@ public class GornerTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int col) {
 // Вычислить значение X как НАЧАЛО_ОТРЕЗКА + ШАГ*НОМЕР_СТРОКИ
         double x = from + step*row;
-        if (col==0) {
-// Если запрашивается значение 1-го столбца, то это X
-            return x;
-        } else {
-// Если запрашивается значение 2-го столбца, то это значение
-// многочлена
-            Double result = 0.0;
-// Вычисление значения в точке по схеме Горнера.
-// Вспомнить 1-ый курс и реализовать
-// ...
-            return result;
+
+        switch(col) {
+            // Если запрашивается значение 1-го столбца, то это X
+            case 0: return x;
+            // Если запрашивается значение 2-го столбца, то это значение
+            // многочлена
+            case 1: {
+                double result = coefficients[coefficients.length - 1];
+                for(int i = coefficients.length - 1; i > 0; --i)
+                    result = result * x + coefficients[i - 1];
+                return result;
+            }
+            default: return 0.0;
         }
+
     }
     public String getColumnName(int col) {
         switch (col) {
