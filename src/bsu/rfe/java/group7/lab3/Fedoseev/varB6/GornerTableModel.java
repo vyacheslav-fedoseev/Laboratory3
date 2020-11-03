@@ -1,5 +1,7 @@
 package bsu.rfe.java.group7.lab3.Fedoseev.varB6;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.swing.table.AbstractTableModel;
 @SuppressWarnings("serial")
 public class GornerTableModel extends AbstractTableModel {
@@ -54,8 +56,8 @@ public class GornerTableModel extends AbstractTableModel {
             case 2: {
                 StringBuffer numberStr = new StringBuffer(String.valueOf((int)result));
                 if(numberStr.toString().compareTo(numberStr.reverse().toString()) == 0)
-                   return 1.0;
-                else return 0.0;
+                   return true;
+                else return false;
             }
             default: return 0.0;
         }
@@ -69,16 +71,18 @@ public class GornerTableModel extends AbstractTableModel {
             case 1:
 // Название 2-го столбца
                 return "Значение многочлена";
-            //case 2:
-                // Название 3-го столбца
-              //  return "Целая часть палиндром?";
+// Название 3-го столбца
+            case 2:
+                return "Целая часть палиндром?";
             default:
-                return "Smth";
+                return "";
         }
     }
     public Class<?> getColumnClass(int col) {
-// И в 1-ом и во 2-ом столбце находятся значения типа Double
-        return Double.class;
+        // В третьем столбце находятся значения типа Boolean
+        if (col == 2) return Boolean.class;
+        // В остальных типа Double
+        else return Double.class;
     }
 }
 
