@@ -19,6 +19,16 @@ public class GornerTableCellRenderer implements TableCellRenderer {
     private String needle = null;
     private DecimalFormat formatter =
             (DecimalFormat)NumberFormat.getInstance();
+// Дополнительный метод для проверки, совпадает ли дробная часть числа с целой
+    private boolean isCoincideFractionalAndIntegerPartsOfNumber(String number) {
+        String[] str = number.split("\\.");
+        if (str.length == 2) {
+            if (str[0].compareTo(str[1]) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
     public GornerTableCellRenderer() {
 // Показывать только 5 знаков после запятой
         formatter.setMaximumFractionDigits(5);
@@ -40,16 +50,18 @@ public class GornerTableCellRenderer implements TableCellRenderer {
     }
     public Component getTableCellRendererComponent(JTable table,
                                                    Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-// Преобразовать double в строку с помощью форматировщика
-        String formattedDouble = formatter.format(value);
+// Преобразовать type в строку с помощью форматировщика
+        String formattedType = formatter.format(value);
 // Установить текст надписи равным строковому представлению числа
-        label.setText(formattedDouble);
-        if (col==1 && needle!=null && needle.equals(formattedDouble)) {
+        label.setText(formattedType);
+        if (col==1 && needle!=null && needle.equals(formattedType)) {
 // Номер столбца = 1 (т.е. второй столбец) + иголка не null
 // (значит что-то ищем) +
 // значение иголки совпадает со значением ячейки таблицы -
 // окрасить задний фон панели в красный цвет
             panel.setBackground(Color.RED);
+        } else if (col==1 && isCoincideFractionalAndIntegerPartsOfNumber(formattedType)) {
+            panel.setBackground(Color.GREEN);
         } else {
 // Иначе - в обычный белый
             panel.setBackground(Color.WHITE);
